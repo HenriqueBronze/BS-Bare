@@ -1,0 +1,51 @@
+springdoc:
+  packagesToScan: com.br.vida.api.srv.apolice.atraso
+  api-docs:
+    path: /swagger
+  swagger-ui:
+    path: /swagger.html
+
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.h2.H2ConsoleAutoConfiguration
+  banner:
+    location: classpath:/banner.txt
+  profiles:
+    active: ${PROFILE:prd}  # Ativa o perfil 'dev' se a variável 'PROFILE' não estiver definida
+  application:
+    name: "@.name@"
+    version: "@project.version@"
+    description: "@project.description@"
+    groupId: "@project.groupId@"
+    artifactId: "@project.artifactId@"
+    java: "@java.version@"
+  ci:
+    ambiente: ${AMBIENTE:esteira}
+    secrets: ${SECRETS:ci}
+
+server:
+  port: 8443  # Porta para o deploy em DevSecOps
+  servlet:
+    context-path: "/@project.artifactId@"  # Substitua por um valor real durante a build
+    encoding:
+      charset: "@project.build.sourceEncoding@"  # Certifique-se de que esta variável está sendo substituída corretamente
+
+  ssl:
+    certificate: ${CERT_SSL_PATH:cer_appstu.pem}  # Certificado SSL
+    certificate-private-key: ${KEY_SSL_PATH:key_appstu.pem}  # Chave privada SSL
+
+logging:
+  file:
+    name: "/var/log/@project.artifactId@/@project.artifactId@.log"  # Certifique-se de que as variáveis são substituídas corretamente
+  level:
+    root: INFO  # Define o nível de log geral como INFO
+    org.springframework.web: DEBUG
+  pattern:
+    console: "${CONSOLE_LOG_PATTERN:-%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} - [${HOSTNAME}]){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
+    file: "${FILE_LOG_PATTERN:-%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} - [${HOSTNAME}] ${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB  # Limite máximo de tamanho de arquivo de log rotativo
+
+

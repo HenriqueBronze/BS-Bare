@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver  # Driver do SQL Server
+    url: ${SPRING_DATASOURCE_URL:jdbc:sqlserver://10.194.69.184:1433;databaseName=SISED000;encrypt=false;trustServerCertificate=false;characterSet=UTF-8}
+    username: ${SPRING_DATASOURCE_USERNAME:sise0010}
+    password: ${SPRING_DATASOURCE_PASSWORD:ds_sise0010}
+
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # Não modificar o esquema do banco de dados
+    properties:
+      hibernate:
+        physical_naming_strategy: com.br.vida.api.srv.apolice.atraso.commom.utils.NoChangeNamingStrategy
+        dialect: org.hibernate.dialect.SQLServerDialect  # Dialeto do SQL Server
+    show-sql: true  # Exibir as consultas SQL no log
+
+server:
+  port: 8443  # Porta para o ambiente de DevSecOps ou produção
